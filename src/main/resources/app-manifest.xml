@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.novomind.com/schema/app" xmlns:appstore="http://www.novomind.com/schema/appstore" xmlns:ecom="http://www.novomind.com/schema/metadata" xsi:schemaLocation="http://www.novomind.com/schema/app https://apps.novomind.com/schemas/manifest-schema/manifest-schema.xsd http://www.novomind.com/schema/appstore https://apps.novomind.com/schemas/appstore-schema/appstore-schema.xsd http://www.novomind.com/schema/metadata https://apps.novomind.com/schemas/ecom-metadata-schema/ecom-metadata-schema.xsd">
+
+  <groupId>@group@</groupId>
+  <appId>@appId@</appId>
+  <name>novomind iAGENT Connect CRM Training App</name>
+  
+  <version>@version@</version>
+  <supportedVersion>
+    <minimum>@minimum-iagent-version@</minimum>
+  </supportedVersion>
+  <product>iagent</product>
+  
+  <descriptions>
+    <description locale="en">This app is for training purposes.</description>
+    <description locale="de">Diese App ist für Schulungszwecken.</description>
+  </descriptions>
+  
+  <vendor>novomind AG</vendor>
+  
+  <icon>META-INF/manifest-resources/icon.png</icon>
+
+  <download>false</download>
+  <email>apps@novomind.com</email>
+  <phone>+49408080710</phone>
+
+</app>
