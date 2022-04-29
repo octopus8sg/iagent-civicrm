@@ -17,10 +17,6 @@ import org.apache.http.util.EntityUtils;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import org.slf4j.Logger;
 
 import com.novomind.ecom.api.iagent.exception.WrongTypeException;
@@ -48,7 +44,7 @@ public class CrmTrainingIncomingMessageReceivedEventListener implements Incoming
         try {
             if (incomingMessageReceivedEvent.getTicketStorage() != null) {
                 String phoneNumber = "(287) 415-3558";
-                String contactId = getContactId(phoneNumber);
+                String contactId = getCiviCRMContactId(phoneNumber);
                 incomingMessageReceivedEvent.getTicketStorage().setString(CrmTrainingConstants.ISSUE_PROPERTY_CONTACT_ID, contactId);
                 log.info("[{}] Contact id = {} stored as ticket property.", logTicketId, contactId);
             } else {
@@ -65,7 +61,7 @@ public class CrmTrainingIncomingMessageReceivedEventListener implements Incoming
      * @param phoneNumber
      * @return a random contact id between 1 and 100 from the REST API.
      */
-    private String getContactId(String phoneNumber) throws UnsupportedEncodingException {
+    private String getCiviCRMContactId(String phoneNumber) throws UnsupportedEncodingException {
         String payload = String.format("{\"phone\": \"%s\", \"return\": [\"id\"]}",
                 phoneNumber);
         String params = URLEncoder.encode(payload, StandardCharsets.UTF_8.toString());

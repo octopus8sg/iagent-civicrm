@@ -25,8 +25,12 @@
       <h:messages id="message" infoStyle="color:blue"
         warnStyle="color:orange" errorStyle="color:red" />
 
-      <p:commandButton id="saveButton" value="Save"
+      <p:commandButton id="saveButton" value="Save Contact Id"
         actionListener="#{vsb.get('CrmTrainingTabBean').saveContactId()}"
+        update="@form" />
+
+      <p:commandButton id="saveButton2" value="Save Contact Phone"
+        actionListener="#{vsb.get('CrmTrainingTabBean').saveContactPhone()}"
         update="@form" />
 
       <p:panelGrid columns="2" styleClass="no-borders">
@@ -35,8 +39,16 @@
 
         <p:inputText id="contactId"
           value="#{vsb.get('CrmTrainingTabBean').contactId}"
-          required="true"
+          required="false"
           requiredMessage="Mandatory field not filled: Contact ID"
+          styleClass="#{component.valid ? 'input-text' : 'input-text-invalid'}" />
+
+        <h:outputText for="contactPhone" value="Contact Phone:"
+                      styleClass="bold-label" />
+        <p:inputText id="contactPhone"
+          value="#{vsb.get('CrmTrainingTabBean').contactPhone}"
+          required="true"
+          requiredMessage="Mandatory field not filled: Contact Phone"
           styleClass="#{component.valid ? 'input-text' : 'input-text-invalid'}" />
       </p:panelGrid>
 

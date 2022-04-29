@@ -1,6 +1,6 @@
 package com.novomind.ecom.app.iagent.custom.crm.training.shared;
 
-import java.util.Base64;
+// import java.util.Base64;
 
 public class CrmTrainingConstants {
 
@@ -11,6 +11,7 @@ public class CrmTrainingConstants {
 
     // Issue property
     public static final String ISSUE_PROPERTY_CONTACT_ID = "crmTrainingContactId";
+    public static final String ISSUE_PROPERTY_CONTACT_PHONE = "crmTrainingContactPhone";
 
     // Custom REST API
 //  public static final String CUSTOM_REST_API_GET_CONTACT_ID_PATH       = "https://demo.socialservicesconnect.com/wp-json/civicrm/v3/rest?key=JdzMQkg3QkglPG79BPdvTxwyoF9jgpV4Q9LMgWGozmU&entity=Contact&action=getsingle&json=1&api_key=8dfe562bd4d16598117c"; // NOSONAR
@@ -35,7 +36,7 @@ public class CrmTrainingConstants {
     // CRM link
     public static final String CRM_LINK_FORMAT = "https://" +
             SITE_PREFIX +
-            ".socialservicesconnect.com/wp-admin/admin.php?page=CiviCRM&q=civicrm%%2Fcontact%%2Fview&reset=1&cid=%s";
+            ".socialservicesconnect.com/wp-admin/admin.php?page=CiviCRM&q=civicrm%%2Fcontact%%2Fview&reset=1&cid=%s&snippet=1";
 
     private CrmTrainingConstants() {
     }
