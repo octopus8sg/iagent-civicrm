@@ -13,6 +13,10 @@ import com.novomind.ecom.app.iagent.custom.crm.training.shared.CrmTrainingConsta
 import com.novomind.ecom.common.api.frontend.CustomBean;
 import com.novomind.ecom.common.api.frontend.CustomManagedBean;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 @CustomManagedBean("CrmTrainingTabBean")
 public class CrmTrainingTabBean implements CustomBean {
 
@@ -90,7 +94,26 @@ public class CrmTrainingTabBean implements CustomBean {
   public String getCrmLink() {
     return String.format(CrmTrainingConstants.CRM_LINK_FORMAT, contactId);
   }
-  
+
+  /**
+   * Gets the CRM Api link with the contact id.
+   */
+  public String getCrmApiLink() throws UnsupportedEncodingException {
+//    return String.format(CrmTrainingConstants.CRM_LINK_FORMAT, contactId);
+    String phoneNumber = "(287) 415-3558";
+    String payload = String.format("{\"phone\": \"%s\", \"return\": [\"id\"]}",
+            phoneNumber);
+    String params = URLEncoder.encode(payload, StandardCharsets.UTF_8.toString());
+    return CrmTrainingConstants.CUSTOM_REST_API_GET_PATH +
+            '?' + CrmTrainingConstants.CUSTOM_REST_API_ENTITY +
+            '&' + CrmTrainingConstants.CUSTOM_REST_API_ACTION +
+            '&' + CrmTrainingConstants.CUSTOM_REST_API_JSON +
+            '&' + CrmTrainingConstants.CUSTOM_REST_API_AUTHORIZATION_VALUE +
+            '&' + "json=" + params;
+  }
+
+
+
   // Getters and Setters
   public String getContactId() {
     return contactId;

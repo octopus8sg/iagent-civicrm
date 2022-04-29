@@ -43,6 +43,17 @@
       <h:panelGroup id="iframe" layout="block">
         <p:panel>
           <f:facet name="header">
+            <h:outputText value="External CRM API: " />
+
+            <h:outputLink target="_blank"
+              value="#{vsb.get('CrmTrainingTabBean').getCrmApiLink()}">
+              <h:outputText
+                value="#{vsb.get('CrmTrainingTabBean').getCrmApiLink()}" />
+            </h:outputLink>
+          </f:facet>
+        </p:panel>
+        <p:panel>
+          <f:facet name="header">
             <h:outputText value="External CRM: " />
 
             <h:outputLink target="_blank"

@@ -8,6 +8,7 @@ dependencies {
   implementation ('com.novomind.ecom:ecom-api-iagent:' + project['minimum-iagent-version'])
 
   embedImplementation ('org.apache.httpcomponents:httpclient:' + project['httpclient'])
+  embedImplementation ('org.json:json:'  + project['json'])
   embedImplementation (project(':ecom-app-iagent-custom-crm-training-shared')) {
     exclude group: 'org.slf4j', module: 'slf4j-api'
     exclude group: 'com.novomind.ecom', module: 'ecom-api-iagent'

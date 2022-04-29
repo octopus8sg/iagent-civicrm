@@ -14,6 +14,13 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import org.slf4j.Logger;
 
 import com.novomind.ecom.api.iagent.exception.WrongTypeException;
@@ -40,7 +47,8 @@ public class CrmTrainingIncomingMessageReceivedEventListener implements Incoming
 
         try {
             if (incomingMessageReceivedEvent.getTicketStorage() != null) {
-                String contactId = getContactId(logTicketId);
+                String phoneNumber = "(287) 415-3558";
+                String contactId = getContactId(phoneNumber);
                 incomingMessageReceivedEvent.getTicketStorage().setString(CrmTrainingConstants.ISSUE_PROPERTY_CONTACT_ID, contactId);
                 log.info("[{}] Contact id = {} stored as ticket property.", logTicketId, contactId);
             } else {
@@ -76,7 +84,7 @@ public class CrmTrainingIncomingMessageReceivedEventListener implements Incoming
             if (entity != null) {
                 JSONObject result = new JSONObject(EntityUtils.toString(entity));
                 String contact_id = result.getString("contact_id");
-                return EntityUtils.toString(entity);
+                return contact_id;
             }
         } catch (IOException e) {
             log.error("[{}] The contact id could not be stored.", phoneNumber, e);

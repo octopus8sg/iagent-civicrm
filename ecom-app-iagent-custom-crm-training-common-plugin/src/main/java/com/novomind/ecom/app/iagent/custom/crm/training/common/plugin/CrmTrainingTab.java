@@ -28,7 +28,9 @@ public class CrmTrainingTab implements MailInfoTabProvider, ChatInfoTabProvider 
   @Override
   public MailInfoTab getMailInfoTab(MailInfoViewContext context) {
     if (Objects.nonNull(context)) {
-      return new MailInfoTab(CrmTrainingConstants.ISSUE_INFO_TAB_NAME, CrmTrainingConstants.ISSUE_INFO_TAB_DISPLAY_NAME, context.getViewUrl(CrmTrainingConstants.ISSUE_INFO_TAB_VIEW_URL));
+      return new MailInfoTab(CrmTrainingConstants.ISSUE_INFO_TAB_NAME,
+              CrmTrainingConstants.ISSUE_INFO_TAB_DISPLAY_NAME,
+              context.getViewUrl(CrmTrainingConstants.ISSUE_INFO_TAB_VIEW_URL));
     } else {
       log.warn("MailInfoTab could not be displayed. Reason: context=null");
     }
@@ -38,7 +40,9 @@ public class CrmTrainingTab implements MailInfoTabProvider, ChatInfoTabProvider 
   @Override
   public ChatInfoTab getChatInfoTab(ChatInfoViewContext context) {
     if (Objects.nonNull(context)) {
-      return new ChatInfoTab(CrmTrainingConstants.ISSUE_INFO_TAB_NAME, CrmTrainingConstants.ISSUE_INFO_TAB_DISPLAY_NAME, context.getViewUrl(CrmTrainingConstants.ISSUE_INFO_TAB_VIEW_URL));
+      return new ChatInfoTab(CrmTrainingConstants.ISSUE_INFO_TAB_NAME,
+              CrmTrainingConstants.ISSUE_INFO_TAB_DISPLAY_NAME,
+              context.getViewUrl(CrmTrainingConstants.ISSUE_INFO_TAB_VIEW_URL));
     } else {
       log.warn("ChatInfoTab could not be displayed. Reason: context=null");
     }

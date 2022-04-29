@@ -44,7 +44,7 @@ public class CrmTrainingChatStartedEventListener implements ChatStartedEventList
 
         try {
             if (chatStartedEvent.getChat().getStorage() != null) {
-                String phoneNumber = "+905541806151";
+                String phoneNumber = "(287) 415-3558";
                 String contactId = getContactId(phoneNumber);
                 chatStartedEvent.getChat().getStorage().setString(CrmTrainingConstants.ISSUE_PROPERTY_CONTACT_ID, contactId);
                 chatStartedEvent.getChat().getStorage().store();
@@ -82,7 +82,7 @@ public class CrmTrainingChatStartedEventListener implements ChatStartedEventList
             if (entity != null) {
                 JSONObject result = new JSONObject(EntityUtils.toString(entity));
                 String contact_id = result.getString("contact_id");
-                return EntityUtils.toString(entity);
+                return contact_id;
             }
         } catch (IOException e) {
             log.error("[{}] The contact id could not be stored.", phoneNumber, e);
