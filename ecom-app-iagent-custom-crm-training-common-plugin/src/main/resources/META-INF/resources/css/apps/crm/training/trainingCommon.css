@@ -20,3 +20,14 @@
   background: #fafafa;
   border: none;
 }
+
+ul li{
+  list-style:none;
+}
+
+ul li a{
+  color:#444;
+  display:block;
+  padding:6px 12px;
+  text-decoration:none;
+}
