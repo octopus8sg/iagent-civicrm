@@ -36,7 +36,7 @@ public class CrmTrainingConstants {
     // CRM link
     public static final String CRM_LINK_FORMAT = "https://" +
             SITE_PREFIX +
-            ".socialservicesconnect.com/wp-admin/admin.php?page=CiviCRM&q=civicrm%%2Fcontact%%2Fview&reset=1&cid=%s&snippet=1";
+            ".socialservicesconnect.com/wp-admin/admin.php?page=CiviCRM&q=civicrm%%2Fcontact%%2Fview&reset=1&cid=%s";
 
     private CrmTrainingConstants() {
     }
