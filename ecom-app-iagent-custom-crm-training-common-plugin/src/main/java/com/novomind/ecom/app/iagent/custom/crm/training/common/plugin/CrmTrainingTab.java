@@ -4,6 +4,8 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
+import com.novomind.ecom.api.iagent.frontend.tab.InfoTabBehavior;
+import com.novomind.ecom.api.iagent.frontend.tab.InfoTabNotification;
 import org.slf4j.Logger;
 
 import com.novomind.ecom.api.iagent.frontend.chatinfo.ChatInfoTab;
@@ -22,31 +24,32 @@ import com.novomind.ecom.app.iagent.custom.crm.training.shared.CrmTrainingConsta
 @ChatAgentPlugin
 public class CrmTrainingTab implements MailInfoTabProvider, ChatInfoTabProvider {
 
-  @Inject
-  private Logger log;
+    @Inject
+    private Logger log;
 
-  @Override
-  public MailInfoTab getMailInfoTab(MailInfoViewContext context) {
-    if (Objects.nonNull(context)) {
-      return new MailInfoTab(CrmTrainingConstants.ISSUE_INFO_TAB_NAME,
-              CrmTrainingConstants.ISSUE_INFO_TAB_DISPLAY_NAME,
-              context.getViewUrl(CrmTrainingConstants.ISSUE_INFO_TAB_VIEW_URL));
-    } else {
-      log.warn("MailInfoTab could not be displayed. Reason: context=null");
+    @Override
+    public MailInfoTab getMailInfoTab(MailInfoViewContext context) {
+        if (Objects.nonNull(context)) {
+            return new
+                    MailInfoTab(CrmTrainingConstants.ISSUE_INFO_TAB_NAME,
+                    CrmTrainingConstants.ISSUE_INFO_TAB_DISPLAY_NAME,
+                    context.getViewUrl(CrmTrainingConstants.ISSUE_INFO_TAB_VIEW_URL))
+                    .setBehavior(new InfoTabBehavior(InfoTabBehavior.SelectionType.SELECTED));
+        } else {
+            log.warn("MailInfoTab could not be displayed. Reason: context=null");
+        }
+        return null;
     }
-    return null;
-  }
 
-  @Override
-  public ChatInfoTab getChatInfoTab(ChatInfoViewContext context) {
-    if (Objects.nonNull(context)) {
-      return new ChatInfoTab(CrmTrainingConstants.ISSUE_INFO_TAB_NAME,
-              CrmTrainingConstants.ISSUE_INFO_TAB_DISPLAY_NAME,
-              context.getViewUrl(CrmTrainingConstants.ISSUE_INFO_TAB_VIEW_URL));
-    } else {
-      log.warn("ChatInfoTab could not be displayed. Reason: context=null");
+    @Override
+    public ChatInfoTab getChatInfoTab(ChatInfoViewContext context) {
+        if (Objects.nonNull(context)) {
+            return new ChatInfoTab(CrmTrainingConstants.ISSUE_INFO_TAB_NAME, CrmTrainingConstants.ISSUE_INFO_TAB_DISPLAY_NAME, context.getViewUrl(CrmTrainingConstants.ISSUE_INFO_TAB_VIEW_URL));
+        } else {
+            log.warn("ChatInfoTab could not be displayed. Reason: context=null");
+        }
+
+        return null;
     }
-    return null;
-  }
 
 }

@@ -1,0 +1,10 @@
+.*
+!.gitattributes
+!.gitignore
+!.gitlab-ci.yml
+
+*.iml
+
+/bin
+/build
+/out
