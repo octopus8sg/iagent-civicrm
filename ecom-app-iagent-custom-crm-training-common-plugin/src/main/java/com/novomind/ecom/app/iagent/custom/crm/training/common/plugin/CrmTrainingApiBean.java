@@ -33,6 +33,8 @@ public class CrmTrainingApiBean implements CustomBean {
     static String SITE;
     static String USER_KEY;
     static String SITE_KEY;
+    static String TAB_HEADING;
+    static Boolean TAB_FULLSCREEN;
     public static String CRM_LINK_FORMAT = "%s";
     public static String CRM_NEW_LINK_FORMAT = "%s";
 
@@ -56,6 +58,8 @@ public class CrmTrainingApiBean implements CustomBean {
                     SITE = config.getString(CrmTrainingConstants.KEY_SITE);
                     USER_KEY = config.getString(CrmTrainingConstants.KEY_USER_KEY);
                     SITE_KEY = config.getString(CrmTrainingConstants.KEY_SITE_KEY);
+                    TAB_HEADING = config.getString(CrmTrainingConstants.KEY_TAB_HEADING);
+                    TAB_FULLSCREEN = config.getBoolean(CrmTrainingConstants.KEY_TAB_FULLSCREEN);
                 } catch (WrongTypeException e) {
                     SITE = "wrong type";
                     log.warn("wrong type: ", e);
@@ -77,14 +81,29 @@ public class CrmTrainingApiBean implements CustomBean {
     }
 
 
-    public String getCrmApiLink() throws PersistencyException, WrongTypeException {
+
+    public String getCrmApiLink() {
         if (this.app == null) {
             return "no app";
         }
         return CRM_LINK_FORMAT;
     }
 
-    public String getCrmNewLinkFormat() throws PersistencyException, WrongTypeException {
+    public String getTabHeading() {
+        if (this.app == null) {
+            return "no app";
+        }
+        return TAB_HEADING;
+    }
+
+    public Boolean getTabFullscreen() {
+        if (this.app == null) {
+            return Boolean.FALSE;
+        }
+        return TAB_FULLSCREEN;
+    }
+
+    public String getCrmNewLinkFormat() {
         if (this.app == null) {
             return "no app";
         }

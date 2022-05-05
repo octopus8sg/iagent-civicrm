@@ -7,7 +7,7 @@
 
     <groupId>@group@</groupId>
     <appId>@appId@</appId>
-    <name>novomind iAGENT Connect CRM Training App</name>
+    <name>novomind iAGENT Connect CiviCRM Octopus8 App</name>
 
     <version>@version@</version>
     <supportedVersion>
@@ -16,8 +16,8 @@
     <product>iagent</product>
 
     <descriptions>
-        <description locale="en">This app is for training purposes.</description>
-        <description locale="de">Diese App ist für Schulungszwecken.</description>
+        <description locale="en">This app is for connecting Octopus8 CiviCRM.</description>
+        <description locale="de">Diese App ist für konnectung zu Octopus8 CiviCRM.</description>
     </descriptions>
 
     <vendor>novomind AG</vendor>
@@ -49,6 +49,10 @@
             <ecom:groups name="API AUTHENTICATION">
                 <ecom:fields key="user_key" name="USER KEY" dataType="String" guiType="text" description="User Key"/>
                 <ecom:fields key="site_key" name="SITE KEY" dataType="String" guiType="text" description="Site Key"/>
+            </ecom:groups>
+            <ecom:groups name="API AUTHENTICATION">
+                <ecom:fields key="tab_heading" name="TAB HEADING" dataType="String" guiType="text" description="TAB HEADING"/>
+                <ecom:fields key="tab_fullscreen" name="TAB FULLSCREEN" dataType="Boolean" guiType="checkbox" description="Tab Fullscreen"/>
             </ecom:groups>
         </ecom:config>
     </metadata>

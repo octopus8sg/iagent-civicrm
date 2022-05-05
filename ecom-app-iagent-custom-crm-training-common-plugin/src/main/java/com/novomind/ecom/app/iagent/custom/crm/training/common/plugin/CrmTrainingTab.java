@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import com.novomind.ecom.api.iagent.frontend.tab.InfoTabBehavior;
 import com.novomind.ecom.api.iagent.frontend.tab.InfoTabNotification;
+import com.novomind.ecom.api.iagent.model.App;
 import org.slf4j.Logger;
 
 import com.novomind.ecom.api.iagent.frontend.chatinfo.ChatInfoTab;
@@ -27,14 +28,29 @@ public class CrmTrainingTab implements MailInfoTabProvider, ChatInfoTabProvider 
     @Inject
     private Logger log;
 
+    @Inject
+    private App app;
+
     @Override
     public MailInfoTab getMailInfoTab(MailInfoViewContext context) {
         if (Objects.nonNull(context)) {
+            String displayName = CrmTrainingConstants.ISSUE_INFO_TAB_DISPLAY_NAME;
+            InfoTabBehavior.SelectionType selectionType = InfoTabBehavior.SelectionType.SELECTED;
+            boolean fullscreen = false;
+            if (Objects.nonNull(app)) {
+                CrmTrainingApiBean crmTrainingApiBean = new CrmTrainingApiBean(app, log);
+                displayName = crmTrainingApiBean.getTabHeading();
+                fullscreen = crmTrainingApiBean.getTabFullscreen();
+                if (fullscreen) {
+                    selectionType = InfoTabBehavior.SelectionType.SELECTED_FULLSCREEN;
+                }
+            }
+
             return new
                     MailInfoTab(CrmTrainingConstants.ISSUE_INFO_TAB_NAME,
-                    CrmTrainingConstants.ISSUE_INFO_TAB_DISPLAY_NAME,
+                    displayName,
                     context.getViewUrl(CrmTrainingConstants.ISSUE_INFO_TAB_VIEW_URL))
-                    .setBehavior(new InfoTabBehavior(InfoTabBehavior.SelectionType.SELECTED));
+                    .setBehavior(new InfoTabBehavior(selectionType));
         } else {
             log.warn("MailInfoTab could not be displayed. Reason: context=null");
         }
@@ -44,7 +60,21 @@ public class CrmTrainingTab implements MailInfoTabProvider, ChatInfoTabProvider 
     @Override
     public ChatInfoTab getChatInfoTab(ChatInfoViewContext context) {
         if (Objects.nonNull(context)) {
-            return new ChatInfoTab(CrmTrainingConstants.ISSUE_INFO_TAB_NAME, CrmTrainingConstants.ISSUE_INFO_TAB_DISPLAY_NAME, context.getViewUrl(CrmTrainingConstants.ISSUE_INFO_TAB_VIEW_URL));
+            String displayName = CrmTrainingConstants.ISSUE_INFO_TAB_DISPLAY_NAME;
+            InfoTabBehavior.SelectionType selectionType = InfoTabBehavior.SelectionType.SELECTED;
+            boolean fullscreen = false;
+            if (Objects.nonNull(app)) {
+                CrmTrainingApiBean crmTrainingApiBean = new CrmTrainingApiBean(app, log);
+                displayName = crmTrainingApiBean.getTabHeading();
+                fullscreen = crmTrainingApiBean.getTabFullscreen();
+                if (fullscreen) {
+                    selectionType = InfoTabBehavior.SelectionType.SELECTED_FULLSCREEN;
+                }
+            }
+
+            return new ChatInfoTab(CrmTrainingConstants.ISSUE_INFO_TAB_NAME,
+                    displayName, context.getViewUrl(CrmTrainingConstants.ISSUE_INFO_TAB_VIEW_URL))
+                    .setBehavior(new InfoTabBehavior(selectionType));
         } else {
             log.warn("ChatInfoTab could not be displayed. Reason: context=null");
         }

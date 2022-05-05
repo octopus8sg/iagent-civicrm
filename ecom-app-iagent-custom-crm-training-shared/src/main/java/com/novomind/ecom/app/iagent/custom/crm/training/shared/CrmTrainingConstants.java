@@ -15,13 +15,6 @@ public class CrmTrainingConstants {
   public static final String ISSUE_PROPERTY_CALLING_NUMBER                 = "callingnumber";
   public static final String ISSUE_PROPERTY_CONTACT_PHONE                 = "crmTrainingContactPhone";
 
-  // Custom REST API
-  public static final String CUSTOM_REST_API_GET_CONTACT_ID_PATH       = "http://localhost:9009/rest/contacts/0123456789"; // NOSONAR
-  public static final String CUSTOM_REST_API_ACCEPT_HEADR_VALUE        = "text/plain";
-  public static final String CUSTOM_REST_API_AUTHORIZATION_HEADR_VALUE = String.format("%s %s", "Basic", Base64.getEncoder().encodeToString(("admin" + ":" + "admin").getBytes()));
-
-  // CRM link
-  public static final String CRM_LINK_FORMAT                           = "https://aces.socialservicesconnect.com/wp-admin/admin.php?page=CiviCRM&q=civicrm%%2Fcontact%%2Fview&reset=1&cid=%s";
 
   private CrmTrainingConstants() {
   }
@@ -29,5 +22,7 @@ public class CrmTrainingConstants {
   public static final String KEY_SITE = "site";
   public static final String KEY_USER_KEY = "user_key";
   public static final String KEY_SITE_KEY = "site_key";
+  public static final String KEY_TAB_HEADING = "tab_heading";
+  public static final String KEY_TAB_FULLSCREEN = "tab_fullscreen";
 
 }
