@@ -6,6 +6,8 @@ import com.novomind.ecom.api.iagent.model.App;
 import com.novomind.ecom.api.iagent.persistence.storage.Storage;
 import com.novomind.ecom.app.iagent.custom.crm.training.shared.CrmTrainingConstants;
 import com.novomind.ecom.common.api.frontend.CustomBean;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 
@@ -31,19 +33,21 @@ public class CrmTrainingApiBean implements CustomBean {
     static String SITE;
     static String USER_KEY;
     static String SITE_KEY;
-    public static String CRM_LINK_FORMAT = "asdfdfdasasdf";
+    public static String CRM_LINK_FORMAT = "%s";
+    public static String CRM_NEW_LINK_FORMAT = "%s";
 
     public CrmTrainingApiBean(App app, Logger log) {
         this.app = app;
         this.log = log;
-        CRM_LINK_FORMAT = "init";
-        SITE = "init";
+        CRM_LINK_FORMAT = "%s";
+        CRM_NEW_LINK_FORMAT = "%s";
+        SITE = "uza.uz";
         if (app != null) {
             Storage config = null;
             try {
                 config = app.getConfig();
             } catch (PersistencyException e) {
-                SITE = "no config";
+                SITE = "uza.uz";
                 log.warn("Failure getting config: ", e);
             }
 
@@ -57,16 +61,19 @@ public class CrmTrainingApiBean implements CustomBean {
                     log.warn("wrong type: ", e);
                 }
             } else {
-                SITE = "no storage";
+                SITE = "uza.uz";
                 log.warn("no storage");
             }
         } else {
-            SITE = "no app";
+            SITE = "uza.uz";
             log.warn("no app");
         }
         CRM_LINK_FORMAT = "https://" +
                 SITE +
                 "/wp-admin/admin.php?page=CiviCRM&q=civicrm%%2Fcontact%%2Fview&reset=1&cid=%s";
+        CRM_NEW_LINK_FORMAT = "https://" +
+                SITE +
+                "/wp-admin/admin.php?page=CiviCRM&q=civicrm%2Fcontact%2Fadd&ct=Individual&cst=Student&reset=1";
     }
 
 
@@ -75,6 +82,13 @@ public class CrmTrainingApiBean implements CustomBean {
             return "no app";
         }
         return CRM_LINK_FORMAT;
+    }
+
+    public String getCrmNewLinkFormat() throws PersistencyException, WrongTypeException {
+        if (this.app == null) {
+            return "no app";
+        }
+        return CRM_NEW_LINK_FORMAT;
     }
 
 
@@ -110,20 +124,60 @@ public class CrmTrainingApiBean implements CustomBean {
         con.setRequestProperty("Accept", customRestApiAcceptHeaderValue);
 
         int status = con.getResponseCode();
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer content = new StringBuffer();
-        while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
+        if (status == 200) {
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer content = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                content.append(inputLine);
+            }
+            in.close();
+            String inner_contact_id;
+            String strcontent = content.toString();
+            if (isJSONValid(strcontent)) {
+                var jsonObj = new JSONObject(strcontent);
+                if (hasContactId(jsonObj)) {
+                    inner_contact_id = jsonObj.getString("contact_id");
+                    if (inner_contact_id != null) {
+                        return inner_contact_id;
+                    } else {
+                        return "0";
+                    }
+                } else {
+                    return "0";
+                }
+            } else {
+                return "0";
+            }
+        } else {
+            return "0";
+            //todo throw error
         }
-        in.close();
-        String inner_contact_id;
-        String strcontent = content.toString();
-        var jsonObj = new JSONObject(strcontent);
-        inner_contact_id = jsonObj.getString("contact_id");
+    }
 
-        return inner_contact_id;
+    public boolean isJSONValid(String test) {
+        try {
+            new JSONObject(test);
+        } catch (JSONException ex) {
+            // edited, to include @Arthur's comment
+            // e.g. in case JSONArray is valid as well...
+            try {
+                new JSONArray(test);
+            } catch (JSONException ex1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean hasContactId(JSONObject jsonObj) {
+        try {
+            jsonObj.getString("contact_id");
+        } catch (JSONException ex) {
+            return false;
+        }
+        return true;
     }
 
 }

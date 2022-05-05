@@ -13,6 +13,7 @@ dependencies {
     exclude group: 'org.slf4j', module: 'slf4j-api'
     exclude group: 'com.novomind.ecom', module: 'ecom-api-iagent'
   }
+
 }
 
 jar {

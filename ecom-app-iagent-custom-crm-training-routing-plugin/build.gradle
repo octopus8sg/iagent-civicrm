@@ -7,10 +7,15 @@ dependencies {
   implementation ('jakarta.inject:jakarta.inject-api:' + project['jakarta-inject'])
   implementation ('com.novomind.ecom:ecom-api-iagent:' + project['minimum-iagent-version'])
 
-  embedImplementation ('org.apache.httpcomponents:httpclient:' + project['httpclient'])
+//  embedImplementation ('org.apache.httpcomponents:httpclient:' + project['httpclient'])
   embedImplementation (project(':ecom-app-iagent-custom-crm-training-shared')) {
     exclude group: 'org.slf4j', module: 'slf4j-api'
     exclude group: 'com.novomind.ecom', module: 'ecom-api-iagent'
+  }
+  implementation (project(':ecom-app-iagent-custom-crm-training-common-plugin')) {
+    exclude group: 'org.slf4j', module: 'slf4j-api'
+    exclude group: 'com.novomind.ecom', module: 'ecom-api-iagent'
+    exclude group: ':ecom-app-iagent-custom-crm-training-core-plugin'
   }
 }
 

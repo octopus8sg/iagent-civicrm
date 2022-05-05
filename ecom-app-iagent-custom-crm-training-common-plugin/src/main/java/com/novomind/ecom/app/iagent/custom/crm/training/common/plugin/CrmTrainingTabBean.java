@@ -4,6 +4,9 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import com.novomind.ecom.api.iagent.model.App;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 
 import com.novomind.ecom.api.iagent.exception.PersistencyException;
@@ -66,22 +69,21 @@ public class CrmTrainingTabBean implements CustomBean {
             if (context != null && context.getIssue() != null && context.getIssue().getStorage() != null) {
                 long startTime = System.currentTimeMillis();
                 Storage issueStorage = context.getIssue().getStorage();
-                callingNumber = issueStorage.getString(CrmTrainingConstants.ISSUE_PROPERTY_CALLING_NUMBER);
-                contactPhone = issueStorage.getString(CrmTrainingConstants.ISSUE_PROPERTY_CONTACT_PHONE);
-                if (contactPhone == null || contactPhone == "") {
-                    contactPhone = issueStorage.getString(CrmTrainingConstants.ISSUE_PROPERTY_CALLING_NUMBER);
-                    if (contactPhone != null && contactPhone != "") {
+                callingNumber = getFromStorage(issueStorage, CrmTrainingConstants.ISSUE_PROPERTY_CALLING_NUMBER);
+                contactPhone =  getFromStorage(issueStorage, CrmTrainingConstants.ISSUE_PROPERTY_CONTACT_PHONE);
+                if (contactPhone == null || contactPhone == "0") {
+                    contactPhone = callingNumber;
+                    if (contactPhone != null && contactPhone != "0") {
                         saveContactId();
                     }
                 }
-                contactId = issueStorage.getString(CrmTrainingConstants.ISSUE_PROPERTY_CONTACT_ID);
+                contactId = getFromStorage(issueStorage, CrmTrainingConstants.ISSUE_PROPERTY_CONTACT_ID);
                 log.info("[{}|{}] Contact id loaded in {} ms", logIssueId, logUsername, (System.currentTimeMillis() - startTime));
-                if (contactId == null || contactId == "") {
-                    contactId = issueStorage.getString(CrmTrainingConstants.ISSUE_PROPERTY_CALLING_NUMBER);
-                    if (contactId != null && contactId != "") {
+                if (contactId == null || contactId == "0") {
+                    if (contactPhone != "0") {
 //                        CrmTrainingApiBean bean  = new CrmTrainingApiBean(this.app, this.log);
 //                        contactId = bean.getCrmContactIdFromPhone(contactPhone);
-                        CrmTrainingApiBean bean  = new CrmTrainingApiBean(this.app, this.log);
+                        CrmTrainingApiBean bean = new CrmTrainingApiBean(this.app, this.log);
                         contactId = bean.getCrmContactIdFromPhone(contactPhone);
                         saveContactId();
                     }
@@ -89,7 +91,7 @@ public class CrmTrainingTabBean implements CustomBean {
             } else {
                 log.warn("[{}|{}] Contact id could not be loaded. Reason: context, issue or storage was null", logIssueId, logUsername);
             }
-        } catch (PersistencyException | WrongTypeException | IOException e) {
+        } catch (PersistencyException |  IOException e) {
             log.error("[{}|{}] Error occurred loading the contact id.", logIssueId, logUsername, e);
         }
     }
@@ -102,6 +104,8 @@ public class CrmTrainingTabBean implements CustomBean {
             if (context != null && context.getIssue() != null && context.getIssue().getStorage() != null) {
                 long startTime = System.currentTimeMillis();
                 Storage issueStorage = context.getIssue().getStorage();
+                issueStorage.setString(CrmTrainingConstants.ISSUE_PROPERTY_CALLING_NUMBER, callingNumber);
+                issueStorage.setString(CrmTrainingConstants.ISSUE_PROPERTY_CONTACT_PHONE, contactPhone);
                 issueStorage.setString(CrmTrainingConstants.ISSUE_PROPERTY_CONTACT_ID, contactId);
                 issueStorage.store();
                 log.info("[{}|{}] Contact id saved in {} ms", logIssueId, logUsername, (System.currentTimeMillis() - startTime));
@@ -117,12 +121,11 @@ public class CrmTrainingTabBean implements CustomBean {
      * Gets the CRM link with the contact id.
      */
     public String getCrmLink() throws WrongTypeException, PersistencyException {
-        CrmTrainingApiBean bean  = new CrmTrainingApiBean(this.app, this.log);
+        CrmTrainingApiBean bean = new CrmTrainingApiBean(this.app, this.log);
+        if (contactId.equals("") || contactId.equals("0")) {
+            return bean.getCrmNewLinkFormat();
+        }
         return String.format(bean.getCrmApiLink(), contactId);
-//        if(this.app == null){
-//            return "no app";
-//        }
-//        return app.getConfig().getString("site");
     }
 
     // Getters and Setters
@@ -139,6 +142,7 @@ public class CrmTrainingTabBean implements CustomBean {
     }
 
     public void setContactPhone(String contactPhone) {
+
         this.contactPhone = contactPhone;
     }
 
@@ -147,7 +151,18 @@ public class CrmTrainingTabBean implements CustomBean {
     }
 
     public void setCallingNumber(String callingNumber) {
+
         this.callingNumber = callingNumber;
+    }
+
+    public String getFromStorage(Storage storage, String text) {
+        String myString;
+        try {
+            myString = storage.getString(text);
+        } catch (WrongTypeException ex) {
+            return "0";
+        }
+        return myString;
     }
 
 }
