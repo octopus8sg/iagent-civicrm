@@ -77,7 +77,7 @@ public class CrmTrainingApiBean implements CustomBean {
                 "/wp-admin/admin.php?page=CiviCRM&q=civicrm%%2Fcontact%%2Fview&reset=1&cid=%s";
         CRM_NEW_LINK_FORMAT = "https://" +
                 SITE +
-                "/wp-admin/admin.php?page=CiviCRM&q=civicrm%2Fcontact%2Fadd&ct=Individual&cst=Student&reset=1";
+                "/wp-admin/admin.php?page=CiviCRM&q=civicrm%2Fcontact%2Fadd&ct=Individual&reset=1";
     }
 
 
