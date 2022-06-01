@@ -6,6 +6,6 @@
 *.iml
 
 /bin
-!/build/libs
+!/build/libs/*
 /build
 /out
